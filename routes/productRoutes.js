@@ -6,21 +6,18 @@ router.post('/api/products', async(req,res)=>{
     try{
         const newProduct = await Product.create(req.body)
         res.status(201).json(newProduct)
-        if (!newProduct === 400 ) {
-            res.status(400).json({error: 'Failed to create Product', details: error.message})
-        }
     }catch (error) {
-        res.status(500).json({error: 'API failed'})
+        res.status(400).json({error: 'Failed to create Product', details: error.message})
     }
 })
 
 
-router.get('api/products/:id', async(req,res)=> {
+router.get('/api/products/:id', async(req,res)=> {
     try{
         const productId = await Product.findById(req.body, req.params.id)
         res.status(201).json(productId)
-        if(!productId === 400 ) {
-            res.status(400).json({error: 'Failed to find book'})
+        if(productId === 404 ) {
+            res.status(404).json({error: 'Failed to find book'})
         }
     }catch (error){
         res.status(500).json({error: 'API failed'})
@@ -29,9 +26,9 @@ router.get('api/products/:id', async(req,res)=> {
 
 router.put('/api/products/:id', async(req,res)=> {
     try{
-        const updateProductId = await Product.findByIdAndUpdate(req.params.id, req.body, {new: true},options)
+        const updateProductId = await Product.findByIdAndUpdate(req.params.id, req.body, {new: true})
         res.status(201).json(updateProductId)
-        if(!updateProductId === 404) {
+        if(updateProductId === 404) {
             res.status(404).json({error: 'Failed to update book'})
         }
     }catch (error) {
@@ -43,8 +40,8 @@ router.delete('/api/products/:id', async(req,res)=> {
     try{
         const deleteProductId = await Product.findByIdAndDelete(req.params.id)
         res.status(201).json(deleteProductId)
-        if (!deleteProductId === 404) {
-            res.status(404).json({error: 'Failed to delete book'})
+        if (deleteProductId === 404) {
+            res.status(404).json({error: 'Failed to delete Product'})
         }
     }catch (error) {
         res.status(500).json({error: 'API Failed'})
