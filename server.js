@@ -4,7 +4,7 @@ require('dotenv').config()
 
 const productRoutes = require('./routes/productRoutes')
 
-app.use(express.json())
+app.use(express.json());
 
 
 app.use('/api/products', productRoutes)
